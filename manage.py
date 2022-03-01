@@ -1,0 +1,1 @@
+from .restaurant_backend import create_app as app, manager, db

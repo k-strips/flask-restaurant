@@ -1,4 +1,4 @@
-from . import db
+from . import db, ma
 from datetime import datetime
 
 class Restaurant(db.Model):
@@ -11,6 +11,10 @@ class Restaurant(db.Model):
     menus = db.relationship('Menu', backref='restaurant', cascade='all, delete, delete-orphan', single_parent=True, order_by='desc(Menu.title)')
     created_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
 
+class RestaurantSchema(ma.Schema):
+    class Meta:
+        model = Restaurant
+
 class Menu(db.Model):
     """data model for restuarant menu"""
     __tablename__='menu'
@@ -18,3 +22,8 @@ class Menu(db.Model):
     title = db.Column(db.String(255), nullable=False)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))
     created = db.Column(db.DateTime, nullable=False, default=datetime.now)
+
+
+class MenuSchema(ma.Schema):
+    class Meta:
+        model = Menu
